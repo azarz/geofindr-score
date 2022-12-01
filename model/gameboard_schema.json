@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "properties": {
+    "rounds": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/round" }
+    },
+    "players": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/player" }
+    }
+  },
+  "required": [
+    "rounds",
+    "players"
+  ],
+
+  "$defs": {
+    "round": {
+      "type": "object",
+      "properties": {
+        "answer": { "$ref": "#/$defs/answer" }
+      }
+    },
+    "answer": {
+      "type": "object",
+      "properties": {
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" }
+      },
+      "required": [ "latitude", "longitude" ]
+    },
+    "player": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "answers": {
+          "type": "array",
+          "items": {
+            "oneOf": [ { "$ref": "#/$defs/answer" }, { "type" : "null" } ]
+          }
+        }
+      }
+    }
+  }
+}

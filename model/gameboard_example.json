@@ -1,0 +1,41 @@
+{
+  "rounds": [
+    {
+      "answer": {
+        "latitude": 45,
+        "longitude": 2.5
+      }
+    },
+    {
+      "answer": {
+        "latitude": 41.5,
+        "longitude": 3.1147
+      }
+    }
+  ],
+  "players": [
+    {
+      "name": "Zozo",
+      "answers": [
+        {
+          "latitude": 45.01,
+          "longitude": 2.45
+        },
+        {
+          "latitude": 41,
+          "longitude": 3.12
+        }
+      ]
+    },
+    {
+      "name": "Marmouille",
+      "answers": [
+        {
+          "latitude": 44.901,
+          "longitude": 2.48
+        },
+        null
+      ]
+    }
+  ]
+}
