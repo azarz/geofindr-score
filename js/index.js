@@ -1,4 +1,5 @@
 import { parseGameboardFile } from "./import.js";
+import { gameboardHTML } from "./dom.js";
 
 const inputElement = document.getElementById("import-gameboard");
 
@@ -40,6 +41,7 @@ async function handleFiles() {
   if ( !gameboard ) {
     alert("Invalid JSON gameboard file")
   }
+  document.getElementById("gametable").innerHTML = gameboardHTML(gameboard);
 }
 
 
