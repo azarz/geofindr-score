@@ -1,0 +1,15 @@
+table {
+  margin-top: 15px;
+}
+
+input[type="text"] {
+  width: 80px;
+}
+
+input[type="text"]:read-only {
+  background-color: #ccc;
+}
+
+td, th {
+  border: 1px solid black;
+}

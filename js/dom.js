@@ -8,10 +8,10 @@
  * @returns {string} HTML code of the cell
  */
 function tablePlayerCellHtml(latitude, longitude, round, player) {
-  let cellHTML = "<td>";
-  cellHTML += `<label>lat: <input type="text" class="latitude ${player} ${round}" value="${latitude}"/></label>`;
-  cellHTML += `<label>lng: <input type="text" class="longitude ${player} ${round}" value="${longitude}"/></label>`;
-  cellHTML += `<p>Score: <span class="score ${player} ${round}"></span></p>`;
+  let cellHTML = `<td data-player="${player.name}" data-round="${round}">`;
+  cellHTML += `<label>lat: <input type="text" class="latitude" value="${latitude}"/></label>`;
+  cellHTML += `<label>lng: <input type="text" class="longitude" value="${longitude}"/></label>`;
+  cellHTML += `<p>Score: <span class="score"></span></p>`;
   cellHTML += "</td>";
   return cellHTML
 }
@@ -26,20 +26,20 @@ function tablePlayerCellHtml(latitude, longitude, round, player) {
  * @returns {string} HTML code of the cell
  */
  function tableAnswerCellHtml(latitude, longitude, round) {
-  let cellHTML = "<td>";
-  cellHTML += `<label>lat: <input type="text" class="latitude answer ${round}" value="${latitude}" readonly/></label>`;
-  cellHTML += `<label>lng: <input type="text" class="longitude answer ${round}" value="${longitude}" readonly/></label>`;
+  let cellHTML = `<td data-round="${round}">`;
+  cellHTML += `<label>lat: <input type="text" class="latitude answer" value="${latitude}" readonly/></label>`;
+  cellHTML += `<label>lng: <input type="text" class="longitude answer" value="${longitude}" readonly/></label>`;
   cellHTML += "</td>";
   return cellHTML
 }
 
 /**
  * Creates the HTML code for a row header cell
- * @param {string} player player name
+ * @param {Object} player Player object as defined in schema at ../model/gameboard_schema.json
  * @returns {string} HTML code of the row header
  */
 function tableRowHeaderCellHtml(player) {
-  return `<th scope="row">${player}</th>`
+  return `<th scope="row">${player.name}</th>`
 }
 
 /**
@@ -57,7 +57,7 @@ function tableColHeaderCellHtml(round) {
  * @returns {string} HTML code for table header
  */
 function tableColHeaderHtml(rounds) {
-  let headerHTML = `<tr id="first-row"><td></td>`;
+  let headerHTML = `<tr id="first-row"><td>Round:</td>`;
   for (let i = 1; i <= rounds.length; i++) {
     headerHTML += tableColHeaderCellHtml(i);
   }
@@ -71,13 +71,13 @@ function tableColHeaderHtml(rounds) {
  * @returns {string} HTML code for the last row of the gameboard table
  */
 function answersRowHtml(rounds) {
-  let rowHTML = `<tr id="last-row"><th scope="row">Answer</th><td></td>`;
+  let rowHTML = `<tr id="last-row"><th scope="row">Answer</th>`;
   let round;
   for (let i = 0; i < rounds.length; i++) {
     round = rounds[i];
     rowHTML += tableAnswerCellHtml(round.answer.latitude, round.answer.longitude, i + 1);
   }
-  rowHTML += "</tr>";
+  rowHTML += "<td></td></tr>";
   return rowHTML
 }
 
@@ -87,17 +87,17 @@ function answersRowHtml(rounds) {
  * @returns {string} HTML code for a player row
  */
 function playerRowHtml(player) {
-  let rowHTML = `<tr id="last-row"><th scope="row">${player.name}</th><td></td>`;
+  let rowHTML = tableRowHeaderCellHtml(player);
   let round;
   for (let i = 0; i < player.answers.length; i++) {
     round = player.answers[i];
     if (!round) {
-      rowHTML += tablePlayerCellHtml(null, null, i + 1, player);
+      rowHTML += tablePlayerCellHtml("", "", i + 1, player);
       continue
     }
     rowHTML += tablePlayerCellHtml(round.latitude, round.longitude, i + 1, player);
   }
-  rowHTML += `<td class=totalScore ${player}></td></tr>`;
+  rowHTML += `<td class="totalScore" data-player="${player.name}"></td></tr>`;
   return rowHTML
 }
 
@@ -107,7 +107,7 @@ function playerRowHtml(player) {
  * @returns {string} HTML code of a table representing the gameboard
  */
 function gameboardHTML(gameboard) {
-  let tableInnerHTML = `<caption>GeoFindr scores</caption>`;
+  let tableInnerHTML = "";
   tableInnerHTML += tableColHeaderHtml(gameboard.rounds);
   for (let player of gameboard.players) {
     tableInnerHTML += playerRowHtml(player);

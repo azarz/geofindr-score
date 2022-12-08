@@ -1,5 +1,5 @@
 /**
- *
+ * Parses a gameboard json file
  * @param {File} file gameboard json file
  * @returns gameboard object, false if import failed
  */

@@ -1,5 +1,6 @@
 import { parseGameboardFile } from "./import.js";
 import { gameboardHTML } from "./dom.js";
+import { computeAllPlayerScores } from "./domScoring.js";
 
 const inputElement = document.getElementById("import-gameboard");
 
@@ -34,15 +35,13 @@ async function handleFilesDnd(files) {
   inputElement.dispatchEvent(new Event("change", {bubbles:true}));
 }
 
-
 async function handleFiles() {
   const fileList = this.files;
   const gameboard = await parseGameboardFile(fileList[0]);
   if ( !gameboard ) {
-    alert("Invalid JSON gameboard file")
+    alert("Invalid JSON gameboard file");
+    return
   }
   document.getElementById("gametable").innerHTML = gameboardHTML(gameboard);
+  computeAllPlayerScores(document.getElementById("gametable"));
 }
-
-
-
