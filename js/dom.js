@@ -11,7 +11,7 @@ function tablePlayerCellHtml(latitude, longitude, round, player) {
   let cellHTML = `<td data-player="${player.name}" data-round="${round}">`;
   cellHTML += `<label>lat: <input type="text" class="latitude" value="${latitude}"/></label>`;
   cellHTML += `<label>lng: <input type="text" class="longitude" value="${longitude}"/></label>`;
-  cellHTML += `<p>Score: <span class="score"></span></p>`;
+  cellHTML += `<p>Score: <span class="score"></span><br>Distance: <span class="distance"></span> m</p>`;
   cellHTML += "</td>";
   return cellHTML
 }

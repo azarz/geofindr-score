@@ -14,24 +14,35 @@ function ditanceBetweenCells(playerCell, answerCell) {
   return distance(playerLat, playerLng, answerLat, answerLng)
 }
 
-function scoreOfCell(playerCell) {
+function distanceOfCell(playerCell) {
   const round = playerCell.dataset.round;
   const answerCell = document.getElementById("last-row").querySelector(`[data-round="${round}"]`);
-  return distanceToScore(ditanceBetweenCells(playerCell, answerCell))
+  return ditanceBetweenCells(playerCell, answerCell)
+}
+
+function scoreOfCell(playerCell) {
+  return distanceToScore(distanceOfCell(playerCell))
 }
 
 function displayScore(playerCell) {
   const score = scoreOfCell(playerCell);
+  let distance = distanceOfCell(playerCell);
+  if (distance == 1e7) {
+    distance = "n/a";
+  } else {
+    distance = distance.toFixed(1);
+  }
   playerCell.querySelector(".score").innerHTML = score;
+  playerCell.querySelector(".distance").innerHTML = distance;
 }
 
 function computePlayerScores(playerRow) {
-  let total = 0;
+  let totalScore = 0;
   playerRow.querySelectorAll("td").forEach(playerCell => {
     if (playerCell.classList.contains("totalScore")) {
-      playerCell.innerHTML = total;
+      playerCell.innerHTML = `${totalScore}`;
     } else {
-      total += scoreOfCell(playerCell);
+      totalScore += scoreOfCell(playerCell);
       displayScore(playerCell);
     }
   });
